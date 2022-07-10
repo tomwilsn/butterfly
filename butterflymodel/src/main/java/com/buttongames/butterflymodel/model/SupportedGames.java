@@ -6,7 +6,9 @@ package com.buttongames.butterflymodel.model;
  */
 public enum SupportedGames {
     // DDR A/A20
-    DDR_A_A20;
+    DDR_2014_A_A20_A20PLUS,
+    // DDR A3
+    DDR_A3;
 
     /**
      * Gets the game based on its model string
@@ -18,8 +20,11 @@ public enum SupportedGames {
 
         // DDR
         if (model.startsWith("MDX")) {
+            if (datecode >= 2022062001) {
+                return DDR_A3;
+            }
             if (datecode >= 2019042200) {
-                return DDR_A_A20;
+                return DDR_2014_A_A20_A20PLUS;
             }
         }
 

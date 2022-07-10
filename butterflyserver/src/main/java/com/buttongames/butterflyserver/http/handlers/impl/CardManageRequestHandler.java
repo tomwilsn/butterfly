@@ -217,7 +217,8 @@ public class CardManageRequestHandler extends BaseRequestHandler {
         Object profile = null;
 
         switch (gameModel) {
-            case DDR_A_A20:
+            case DDR_2014_A_A20_A20PLUS:
+            case DDR_A3:
                 profile = this.ddrProfileDao.findByUser(card.getUser());
                 break;
             default:

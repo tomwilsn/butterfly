@@ -143,7 +143,8 @@ public class ButterflyHttpServer {
             final SupportedGames gameModel = SupportedGames.fromModel(request.attribute("model"));
 
             switch (gameModel) {
-                case DDR_A_A20:
+                case DDR_2014_A_A20_A20PLUS:
+                case DDR_A3:
                     return this.baseDdr16RequestHandler.handleRequest(requestBody, request, response);
                 default:
                     throw new InvalidRequestModelException();
@@ -244,7 +245,13 @@ public class ButterflyHttpServer {
         Element rootNode = null;
 
         if (XmlUtils.isBinaryXML(reqBody)) {
-            rootNode = XmlUtils.stringToXmlFile(PublicKt.kbinDecodeToString(reqBody));
+            String xmlString = PublicKt.kbinDecodeToString(reqBody);
+//            String clean = xmlString.replaceAll("[^\\n\\r\\t\\p{Print}]", "").replace("&#", "");
+            String clean = xmlString.replace("&#", "");
+            rootNode = XmlUtils.stringToXmlFile(clean);
+            if (rootNode == null) {
+                throw new InvalidRequestException();
+            }
         } else {
             rootNode = XmlUtils.byteArrayToXmlFile(reqBody);
         }
@@ -269,12 +276,12 @@ public class ButterflyHttpServer {
             final LocalDateTime now = LocalDateTime.now();
             final ButterflyUser newUser = new ButterflyUser("0000", now, now, 10000);
             userDao.create(newUser);
-            machine = new Machine(newUser, requestBodyPcbId, LocalDateTime.now(), false, 0);
+            machine = new Machine(newUser, requestBodyPcbId, LocalDateTime.now(), true, 0);
             machineDao.create(machine);
-
-            throw new InvalidPcbIdException();
-        } else if (!machine.isEnabled()) {
-            throw new InvalidPcbIdException();
+//
+//            throw new InvalidPcbIdException();
+//        } else if (!machine.isEnabled()) {
+//            throw new InvalidPcbIdException();
         }
 
         // validate that the request URI matches the request body
@@ -307,6 +314,22 @@ public class ButterflyHttpServer {
                 .withOperationsFromSingletons(this.butterflyQuery, this.ddr16Query)
                 .generate();
     }
+
+    public static String escapeHTML(String s) {
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '\'' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
 
     /**
      * Creates a GraphQL result from the data and the errors.

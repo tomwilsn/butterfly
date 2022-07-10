@@ -1,19 +1,10 @@
 package com.buttongames.butterflydao.spring.configuration;
 
+import com.buttongames.butterflydao.hibernate.dao.impl.ButterflyUserDao;
 import com.buttongames.butterflydao.hibernate.dao.impl.CardDao;
 import com.buttongames.butterflydao.hibernate.dao.impl.MachineDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ButterflyUserDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.EventSaveDataDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.GhostDataDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.GlobalEventDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.GoldenLeaguePeriodDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.GoldenLeagueStatusDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.ProfileDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.ShopDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.GameplayEventLogDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.PcbEventLogDao;
 import com.buttongames.butterflydao.hibernate.dao.impl.UserPhasesDao;
-import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.UserSongRecordDao;
+import com.buttongames.butterflydao.hibernate.dao.impl.ddr16.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

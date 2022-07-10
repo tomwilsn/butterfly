@@ -11,6 +11,9 @@ import com.buttongames.butterflyserver.http.handlers.impl.PcbEventRequestHandler
 import com.buttongames.butterflyserver.http.handlers.impl.PcbTrackerRequestHandler;
 import com.buttongames.butterflyserver.http.handlers.impl.ServicesRequestHandler;
 import com.buttongames.butterflyserver.http.handlers.impl.SystemRequestHandler;
+import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddra3.EventLog2RequestHandler;
+import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddra3.PlayerData2RequestHandler;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +52,17 @@ public class BaseDdr16RequestHandler {
     /** Handler for requests for the <code>eventlog</code> module. */
     private final EventLogRequestHandler eventLogRequestHandler;
 
+    /** Handler for requests for the <code>eventlog_2</code> module. */
+    private final EventLog2RequestHandler eventLog2RequestHandler;
+
     /** Handler for requests for the <code>tax</code> module. */
     private final TaxRequestHandler taxRequestHandler;
 
     /** Handler for requests for the <code>playerdata</code> module. */
     private final PlayerDataRequestHandler playerDataRequestHandler;
+
+    /** Handler for requests for the <code>playerdata_2</code> module. */
+    private final PlayerData2RequestHandler playerData2RequestHandler;
 
     /** Handler for requests for the <code>cardmng</code> module. */
     private final CardManageRequestHandler cardManageRequestHandler;
@@ -75,8 +84,10 @@ public class BaseDdr16RequestHandler {
                                    final FacilityRequestHandler facilityRequestHandler,
                                    final PackageRequestHandler packageRequestHandler,
                                    final EventLogRequestHandler eventLogRequestHandler,
+                                   final EventLog2RequestHandler eventLog2RequestHandler,
                                    final TaxRequestHandler taxRequestHandler,
                                    final PlayerDataRequestHandler playerDataRequestHandler,
+                                   final PlayerData2RequestHandler playerData2RequestHandler,
                                    final CardManageRequestHandler cardManageRequestHandler,
                                    final SystemRequestHandler systemRequestHandler,
                                    final EacoinRequestHandler eacoinRequestHandler) {
@@ -87,8 +98,10 @@ public class BaseDdr16RequestHandler {
         this.facilityRequestHandler = facilityRequestHandler;
         this.packageRequestHandler = packageRequestHandler;
         this.eventLogRequestHandler = eventLogRequestHandler;
+        this.eventLog2RequestHandler = eventLog2RequestHandler;
         this.taxRequestHandler = taxRequestHandler;
         this.playerDataRequestHandler = playerDataRequestHandler;
+        this.playerData2RequestHandler = playerData2RequestHandler;
         this.cardManageRequestHandler = cardManageRequestHandler;
         this.systemRequestHandler = systemRequestHandler;
         this.eacoinRequestHandler = eacoinRequestHandler;
@@ -119,10 +132,14 @@ public class BaseDdr16RequestHandler {
             return this.packageRequestHandler.handleRequest(requestBody, request, response);
         } else if (requestModule.equals("eventlog")) {
             return this.eventLogRequestHandler.handleRequest(requestBody, request, response);
+        } else if (requestModule.equals("eventlog_2")) {
+            return this.eventLog2RequestHandler.handleRequest(requestBody, request, response);
         } else if (requestModule.equals("tax")) {
             return this.taxRequestHandler.handleRequest(requestBody, request, response);
         } else if (requestModule.equals("playerdata")) {
             return this.playerDataRequestHandler.handleRequest(requestBody, request, response);
+        } else if (requestModule.equals("playerdata_2")) {
+            return this.playerData2RequestHandler.handleRequest(requestBody, request, response);
         } else if (requestModule.equals("cardmng")) {
             return this.cardManageRequestHandler.handleRequest(requestBody, request, response);
         } else if (requestModule.equals("system")) {

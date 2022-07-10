@@ -32,6 +32,8 @@ import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddr16.PlayerDataRe
 import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddr16.TaxRequestHandler;
 import com.buttongames.butterflycore.util.CardIdUtils;
 
+import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddra3.EventLog2RequestHandler;
+import com.buttongames.butterflyserver.http.handlers.impl.mdx.ddra3.PlayerData2RequestHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -65,14 +67,16 @@ public class HttpConfiguration {
                                                          final FacilityRequestHandler facilityRequestHandler,
                                                          final PackageRequestHandler packageRequestHandler,
                                                          final EventLogRequestHandler eventLogRequestHandler,
+                                                         final EventLog2RequestHandler eventLog2RequestHandler,
                                                          final TaxRequestHandler taxRequestHandler,
                                                          final PlayerDataRequestHandler playerDataRequestHandler,
+                                                         final PlayerData2RequestHandler playerData2RequestHandler,
                                                          final CardManageRequestHandler cardManageRequestHandler,
                                                          final SystemRequestHandler systemRequestHandler,
                                                          final EacoinRequestHandler eacoinRequestHandler) {
         return new BaseDdr16RequestHandler(servicesRequestHandler, pcbEventRequestHandler, pcbTrackerRequestHandler,
-                messageRequestHandler, facilityRequestHandler, packageRequestHandler, eventLogRequestHandler,
-                taxRequestHandler, playerDataRequestHandler, cardManageRequestHandler, systemRequestHandler,
+                messageRequestHandler, facilityRequestHandler, packageRequestHandler, eventLogRequestHandler, eventLog2RequestHandler,
+                taxRequestHandler, playerDataRequestHandler, playerData2RequestHandler, cardManageRequestHandler, systemRequestHandler,
                 eacoinRequestHandler);
     }
 
@@ -84,6 +88,11 @@ public class HttpConfiguration {
     @Bean
     public EventLogRequestHandler eventLogRequestHandler(final GameplayEventLogDao gameplayEventLogDao) {
         return new EventLogRequestHandler(gameplayEventLogDao);
+    }
+
+    @Bean
+    public EventLog2RequestHandler eventLog2RequestHandler(final GameplayEventLogDao gameplayEventLogDao) {
+        return new EventLog2RequestHandler(gameplayEventLogDao);
     }
 
     @Bean
@@ -123,6 +132,16 @@ public class HttpConfiguration {
                                                              final EventSaveDataDao eventSaveDataDao, final GoldenLeagueStatusDao goldenLeagueStatusDao,
                                                              final GoldenLeaguePeriodDao goldenLeaguePeriodDao) {
         return new PlayerDataRequestHandler(userDao, cardDao, profileDao, ghostDataDao, songRecordDao, globalEventDao,
+                eventSaveDataDao, goldenLeagueStatusDao, goldenLeaguePeriodDao);
+    }
+
+    @Bean
+    public PlayerData2RequestHandler playerData2RequestHandler(final ButterflyUserDao userDao, final CardDao cardDao,
+                                                             final ProfileDao profileDao, final GhostDataDao ghostDataDao,
+                                                             final UserSongRecordDao songRecordDao, final GlobalEventDao globalEventDao,
+                                                             final EventSaveDataDao eventSaveDataDao, final GoldenLeagueStatusDao goldenLeagueStatusDao,
+                                                             final GoldenLeaguePeriodDao goldenLeaguePeriodDao) {
+        return new PlayerData2RequestHandler(userDao, cardDao, profileDao, ghostDataDao, songRecordDao, globalEventDao,
                 eventSaveDataDao, goldenLeagueStatusDao, goldenLeaguePeriodDao);
     }
 
